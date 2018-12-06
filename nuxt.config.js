@@ -13,9 +13,7 @@ module.exports = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
 
   /*
@@ -26,29 +24,44 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [
-  ],
+  css: [],
 
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [
-  ],
+  plugins: [],
 
   /*
   ** Nuxt.js modules
   */
   modules: [
-    // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios',
+    // Doc: https://github.com/nuxt-community/apollo-module
+    '@nuxtjs/apollo',
     // Doc: https://buefy.github.io/#/documentation
     'nuxt-buefy'
   ],
   /*
-  ** Axios module configuration
+  ** Apollo module configuration
   */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+  apollo: {
+    tokenName: 'token',
+    clientConfigs: {
+      default: {
+        httpEndpoint: process.env.API_URL || 'http://localhost:8000/graphql/',
+        httpLinkOptions: {
+          credentials: 'same-origin'
+        },
+        wsEndpoint: null, // process.env.API_WS_URL || 'ws://localhost:8000/graphql/',
+        tokenName: 'token',
+        persisting: false,
+        websocketsOnly: false
+      },
+      test: {
+        httpEndpoint: 'http://localhost:8000/graphql/',
+        wsEndpoint: null, //'ws://localhost:8000/graphql/',
+        tokenName: 'token'
+      }
+    }
   },
 
   /*

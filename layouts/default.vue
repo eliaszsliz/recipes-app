@@ -24,7 +24,7 @@
 
     <section class="main-content columns">
 
-      <aside class="column is-2 section">
+      <aside class="column is-3 section">
         <p class="menu-label is-hidden-touch">General</p>
         <ul class="menu-list">
           <li
@@ -39,7 +39,7 @@
         </ul>
       </aside>
 
-      <div class="container column is-10">
+      <div class="container column is-9">
         <nuxt />
       </div>
 
@@ -54,10 +54,17 @@ export default {
       items: [
         { title: 'Home', icon: 'home', to: { name: 'index' } },
         { title: 'Inspire', icon: 'lightbulb', to: { name: 'inspire' } },
-        { title: 'Rejestracja', icon: 'lightbulb', to: { name: 'signup' } },
-        { title: 'Logowanie', icon: 'lightbulb', to: { name: 'login' } }
+        { title: 'Register', icon: 'lightbulb', to: { name: 'signup' } },
+        { title: 'Log in', icon: 'lightbulb', to: { name: 'login' } },
+        { title: 'Recipes', icon: 'lightbulb', to: { name: 'recipes' } },
+        { title: 'Categories', icon: 'lightbulb', to: { name: 'tags' } }
       ]
     }
   }
 }
 </script>
+
+<style lang="sass">
+.cursor-pointer
+  cursor: pointer
+</style>

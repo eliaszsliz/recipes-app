@@ -1,0 +1,10 @@
+query($slug: String) {
+    recipe(slug: $slug ){
+      id
+      slug
+      name
+      description
+      body
+      portions
+  }
+}

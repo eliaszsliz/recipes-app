@@ -1,0 +1,12 @@
+query{
+  allRecipes {
+    id
+    slug
+    name
+    description
+    body
+    portions
+    timeNeed
+    difficulty
+  }
+}
