@@ -1,7 +1,5 @@
 <template>
-  <div>
-
-
+  <section>
     <b-message
       v-if="errors.length"
       type="is-danger">
@@ -15,70 +13,89 @@
 
     <b-field
       horizontal
-      label="Login">
+      label="Nazwa użytkownika">
       <b-input v-model="credentials.username"/>
     </b-field>
 
     <b-field
       horizontal
-      label="Password">
+      label="Hasło">
       <b-input
         v-model="credentials.password"
         type="password"/>
     </b-field>
 
+    <b-field
+      horizontal
+      label="Powtórz hasło">
+      <b-input v-model="credentials.passwordRepeat"/>
+    </b-field>
+
+    <b-field
+      horizontal
+      label="Email">
+      <b-input v-model="credentials.email"/>
+    </b-field>
+
     <button
-      type="button"
-      class="button is-success is-medium is-block"
+      type="submit"
+      class="button is-success is-large"
       @click="submitForm"
     >
-      Zaloguj
+      Utwórz konto
     </button>
-  </div>
+
+  </section>
 </template>
 
 <script>
-const authenticateUserGql = require('../graphql/UserLogin.gql')
-import { mapMutations } from 'vuex'
+const registerUserGql = require('../graphql/UserRegister.gql')
 
 export default {
-  name: 'LoginForm',
+  name: 'Signup',
   data() {
     return {
       errors: [],
       credentials: {
-        username: 'admin',
-        password: 'korynt123'
+        username: 'test',
+        password: 'has',
+        passwordRepeat: 'sa',
+        email: 'pwaew@wpp.pl'
       }
     }
   },
   methods: {
     async submitForm() {
-      const credentials = this.credentials
       try {
         const res = await this.$apollo
           .mutate({
+            mutation: registerUserGql,
+            variables: this.credentials
+          })
+          .then(({ data }) => data.userRegister)
+
+        await this.$toast.open({
+          type: 'is-success',
+          message: `Welcome ${this.credentials.username}!`
+        })
+
+        await this.$apollo
+          .mutate({
             mutation: authenticateUserGql,
-            variables: credentials
+            variables: {
+              username: this.credentials.username,
+              password: this.credentials.password
+            }
           })
           .then(({ data }) => data.userLogin)
 
         await this.$apolloHelpers.onLogin(res.token)
         await this.setUser(res.user)
         await this.setToken(res.token)
-
-        await this.$toast.open(`Hello ${this.$store.state.auth.username}!`)
       } catch (e) {
-        this.$toast.open('' + e)
-
         this.errors = e.graphQLErrors || []
       }
-    },
-    ...mapMutations({
-      setUser: 'auth/setUser',
-      setToken: 'auth/setToken',
-      add: 'increment'
-    })
+    }
   }
 }
 </script>
