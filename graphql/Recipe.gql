@@ -6,5 +6,12 @@ query($slug: String) {
       description
       body
       portions
+      difficulty
+      timeNeed
+      tags {
+        id
+        slug
+        name
+      }
   }
 }

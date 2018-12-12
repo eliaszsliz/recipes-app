@@ -4,9 +4,9 @@ query{
     slug
     name
     description
-    body
     portions
     timeNeed
     difficulty
+    thumbnailUrl
   }
 }

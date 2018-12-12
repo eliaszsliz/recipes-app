@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-title title="All recipes" />
+    <page-title title="Your favourite recipes" />
 
     <ApolloQuery
       :query="require('../graphql/Recipes.gql')"
@@ -21,6 +21,7 @@
           v-else-if="data"
           class="result apollo">
           <recipe-list :items="data.allRecipes" />
+          {{ data.allRecipes }}
         </div>
 
         <!-- No result -->
@@ -30,26 +31,19 @@
           Nie ma żadnych wyników
         </div>
       </template>
+
     </ApolloQuery>
   </div>
+
 </template>
 
 <script>
 import RecipeList from '@/components/RecipeList'
-
 export default {
-  name: 'Recipes',
-  components: { RecipeList },
-  methods: {
-    async fetchItems() {
-      await console.log('XD')
-    }
-  }
+  name: 'Favourites',
+  components: { RecipeList }
 }
 </script>
 
 <style scoped>
-.card {
-  margin: 8px;
-}
 </style>

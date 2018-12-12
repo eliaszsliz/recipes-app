@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav
-      class="navbar header has-shadow is-light"
+      class="navbar header has-shadow is-primary"
       role="navigation"
       aria-label="main navigation">
       <div class="navbar-brand">
@@ -9,27 +9,35 @@
           class="navbar-item"
           href="/">
           <img
-            src="~assets/buefy.png"
-            alt="Buefy"
-            height="28">
+            src="~/assets/burger.svg"
+            alt="Burger logo"
+            style="width: 28px; height: 28px; margin-right: 8px"
+          >
+          <b>Food</b>
         </a>
 
-        <div class="navbar-burger">
+        <div
+          :class="{
+            'navbar-burger': true,
+            'is-active' : isOpen
+          }"
+          @click="toggleMenu"
+        >
           <span/>
           <span/>
           <span/>
         </div>
       </div>
 
-      <div class="navbar-menu">
+      <div :class="{ 'navbar-menu': true, }">
         <div class="navbar-end">
           <div
             v-if="isAuthenticated"
             class="navbar-item">
             <button
               class="button is-warning"
-              @click="onLogout"
-            >Wyloguj</button>
+              @click="logout"
+            >Log out</button>
           </div>
 
           <template v-else>
@@ -38,54 +46,25 @@
               <nuxt-link
                 :to="{ name: 'register' }"
                 style="margin-right: 8px"
-                class="button is-primary is-outlined"
-              >Rejestracja</nuxt-link>
+                class="button is-primary"
+              >Register</nuxt-link>
 
               <nuxt-link
                 :to="{ name: 'login' }"
-                class="button is-primary"
-              >Logowanie</nuxt-link>
+                class="button is-white is-outlined"
+              >Log in</nuxt-link>
             </div>
           </template>
         </div>
       </div>
     </nav>
 
-    <section class="main-content columns">
+    <section class="main-content columns is-gapless">
+      <no-ssr>
+        <sidebar-menu />
+      </no-ssr>
 
-      <aside class="column is-3 section">
-        <div
-          v-if="isAuthenticated"
-          class="media">
-
-          <figure class="media-left">
-            <p class="image is-64x64">
-              <img src="https://bulma.io/images/placeholders/128x128.png">
-            </p>
-          </figure>
-          <div class="media-content">
-            <span class="is-4 strong">
-              {{ isAuthenticated }}
-              {{ $store.state.auth.username }} : {{ $store.state.auth.id }}
-            </span>
-          </div>
-        </div>
-
-        <p class="menu-label is-hidden-touch">General</p>
-        <ul class="menu-list">
-          <li
-            v-for="(item, key) of items"
-            :key="key">
-            <nuxt-link
-              :to="item.to"
-              exact-active-class="is-active">
-              <b-icon :icon="item.icon"/> {{ item.title }}
-            </nuxt-link>
-          </li>
-        </ul>
-      </aside>
-
-      <div class="container column is-9">
+      <div class="column is-12 is-9-desktop AppContent">
         <nuxt />
       </div>
 
@@ -94,34 +73,46 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
+import SidebarMenu from '../components/SidebarMenu'
 
 export default {
-  data() {
-    return {
-      items: [
-        { title: 'Home', icon: 'home', to: { name: 'index' } },
-        { title: 'Inspire', icon: 'lightbulb', to: { name: 'inspire' } },
-        { title: 'Register', icon: 'lightbulb', to: { name: 'register' } },
-        { title: 'Log in', icon: 'lightbulb', to: { name: 'login' } },
-        { title: 'Recipes', icon: 'lightbulb', to: { name: 'recipes' } },
-        { title: 'Categories', icon: 'lightbulb', to: { name: 'tags' } }
-      ]
-    }
-  },
+  components: { SidebarMenu },
   computed: {
-    ...mapGetters('auth', ['isAuthenticated'])
+    ...mapGetters('auth', ['isAuthenticated']),
+    ...mapGetters('menu', ['isOpen'])
+  },
+  watch: {
+    $route(to, from) {
+      this.closeMenu()
+    }
   },
   methods: {
-    async onLogout() {
-      await this.$apolloHelpers.onLogout()
-      await this.$store.commit('auth/clearUser')
-    }
+    logout() {
+      this.$apolloHelpers.onLogout()
+      this.clearUser()
+    },
+    ...mapMutations({
+      openMenu: 'menu/openMenu',
+      closeMenu: 'menu/closeMenu',
+      toggleMenu: 'menu/toggleMenu',
+      clearUser: 'auth/clearUser'
+    })
   }
 }
 </script>
 
 <style lang="sass">
+@import "~bulma/sass/utilities/_all.sass"
+@import "../sass/variables"
+
 .cursor-pointer
   cursor: pointer
+
+.AppContent
+  padding-left: $container-gap-horizontal !important
+  padding-right: $container-gap-horizontal !important
+
+  //@include from(desktop)
+    margin-left: 25% !important
 </style>

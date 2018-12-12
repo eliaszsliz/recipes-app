@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <b-message
       v-if="errors.length"
       type="is-danger">
@@ -14,25 +12,27 @@
     </b-message>
 
     <b-field
-      horizontal
-      label="Login">
-      <b-input v-model="credentials.username"/>
+      label="Username"
+      class="has-text-left">
+      <b-input
+        id="login"
+        v-model="credentials.username"/>
     </b-field>
 
     <b-field
-      horizontal
-      label="Password">
+      label="Password"
+      class="has-text-left">
       <b-input
         v-model="credentials.password"
         type="password"/>
     </b-field>
 
     <button
+      :class="['button is-success is-medium is-block', loading ? 'is-loading' : '' ]"
       type="button"
-      class="button is-success is-medium is-block"
       @click="submitForm"
     >
-      Zaloguj
+      Log in
     </button>
   </div>
 </template>
@@ -49,12 +49,14 @@ export default {
       credentials: {
         username: 'admin',
         password: 'korynt123'
-      }
+      },
+      loading: false
     }
   },
   methods: {
     async submitForm() {
       const credentials = this.credentials
+      this.loading = true
       try {
         const res = await this.$apollo
           .mutate({
@@ -66,11 +68,10 @@ export default {
         await this.$apolloHelpers.onLogin(res.token)
         await this.setUser(res.user)
         await this.setToken(res.token)
-
+        this.loading = false
         await this.$toast.open(`Hello ${this.$store.state.auth.username}!`)
       } catch (e) {
-        this.$toast.open('' + e)
-
+        this.loading = false
         this.errors = e.graphQLErrors || []
       }
     },

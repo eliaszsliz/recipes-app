@@ -1,15 +1,16 @@
 <template>
   <div>
-    <page-title title="All recipes" />
-
     <ApolloQuery
-      :query="require('../graphql/Recipes.gql')"
+      :query="require('@/graphql/Tag.gql')"
+      :variables="{ slug }"
     >
       <template slot-scope="{ result: { loading, error, data } }">
         <!-- Loading -->
         <div
           v-if="loading"
-          class="loading apollo">Loading...</div>
+          class="loading apollo">
+          Loading...
+        </div>
 
         <!-- Error -->
         <div
@@ -20,7 +21,12 @@
         <div
           v-else-if="data"
           class="result apollo">
-          <recipe-list :items="data.allRecipes" />
+          <div>
+            <page-title :title="data.tag.name" />
+
+            <recipe-list
+              :items="data.tag.recipes" />
+          </div>
         </div>
 
         <!-- No result -->
@@ -31,6 +37,7 @@
         </div>
       </template>
     </ApolloQuery>
+
   </div>
 </template>
 
@@ -38,18 +45,19 @@
 import RecipeList from '@/components/RecipeList'
 
 export default {
-  name: 'Recipes',
+  validate({ params }) {
+    return true
+  },
+  name: 'TagPage',
   components: { RecipeList },
-  methods: {
-    async fetchItems() {
-      await console.log('XD')
+  computed: {
+    slug: function() {
+      return this.$route.params.slug
     }
   }
 }
 </script>
 
-<style scoped>
-.card {
-  margin: 8px;
-}
+<style scoped lang="sass">
+
 </style>

@@ -1,10 +1,7 @@
 <template>
-  <div class="columns">
-    <div class="column is-8 is-offset-2 has-text-centered">
-      <h1 class="title is-2">Logowanie</h1>
-
-      <login-form/>
-    </div>
+  <div class="container">
+    <page-title title="Log in"/>
+    <login-form/>
   </div>
 </template>
 

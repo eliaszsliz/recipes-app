@@ -29,7 +29,10 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [],
+  plugins: [
+    '~/plugins/global.js',
+    { src: '~/plugins/vue-masonry.js', ssr: false }
+  ],
 
   /*
   ** Nuxt.js modules
