@@ -25,18 +25,21 @@
             icon="menu"
             class="cursor-pointer"
           />
-          <b-dropdown-item disabled>Add to list</b-dropdown-item>
+          <b-dropdown-item>Add to list</b-dropdown-item>
           <b-dropdown-item disabled>Send shopping list</b-dropdown-item>
           <b-dropdown-item disabled>Share</b-dropdown-item>
         </b-dropdown>
       </span>
 
       <span
-        class="card-footer-item cursor-pointer">
-        <b-icon
-          :type="favourite ? 'is-danger' : '' "
-          icon="heart"/>
+        class="card-footer-item cursor-pointer"
+        @click="setFavourite(!userHasInFavourites)"
+      >
+        <recipe-list-element-heart
+          :active="userHasInFavourites"
+        />
       </span>
+
       <span
         class="card-footer-item cursor-pointer"
         @click="goToMore"
@@ -51,12 +54,17 @@
 
 <script>
 import { media_prefix } from '../utils/media'
+import { mapGetters, mapMutations } from 'vuex'
+import RecipeListElementHeart from '@/components/RecipeListElementHeart'
+
+const setFavouriteGql = require('../graphql/SetFavourite.gql')
 
 export default {
   name: 'RecipeItemsElement',
+  components: { RecipeListElementHeart },
   props: {
     id: {
-      type: [Number, String],
+      type: Number,
       required: true
     },
     slug: {
@@ -71,16 +79,16 @@ export default {
       type: String,
       default: null
     },
-    favourite: {
-      type: Boolean,
-      default: false
-    },
     thumbnailUrl: {
       type: String,
       required: false
     }
   },
   computed: {
+    ...mapGetters('auth', ['favouredIds']),
+    userHasInFavourites: function() {
+      return this.favouredIds.includes(+this.id)
+    },
     computedThumbnailUrl: function() {
       if (this.thumbnailUrl) {
         return media_prefix(this.thumbnailUrl)
@@ -89,11 +97,32 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      addFavourite: 'auth/addFavourite',
+      removeFavourite: 'auth/removeFavourite'
+    }),
     goToMore: function() {
-      console.log('test')
       this.$router.push({
         path: '/recipe/' + this.slug
       })
+    },
+    setFavourite(new_value) {
+      if (new_value) {
+        this.addFavourite(+this.id)
+      } else {
+        this.removeFavourite(+this.id)
+      }
+      try {
+        this.$apollo.mutate({
+          mutation: setFavouriteGql,
+          variables: {
+            id: this.id,
+            newValue: new_value
+          }
+        })
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 }
@@ -104,21 +133,7 @@ export default {
   @import "../sass/variables"
 
   .RecipeListElement
-    //flex-basis: 100%
-    //margin: $container-gap-horizontal
-
-    //&:not(:last-of-type)
-    //  margin-bottom: 0
-
-
-    //@include tablet
-    //  flex-basis: calc(50% - ( 2 * #{$container-gap-horizontal} ))
-
-    //@include desktop
-    //  flex-basis: calc(33% - ( 2 * #{$container-gap-horizontal} ))
-
-    //@include fullhd
-    //  flex-basis: calc(25% - ( 2 * #{$container-gap-horizontal} ))
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .07) // 1px 18px 23px rgba(76, 76, 76, 0.2)
 
     &-NameWrapper
       $name-bg-color: rgba(white, .7)

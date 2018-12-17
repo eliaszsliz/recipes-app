@@ -6,39 +6,44 @@
     }"
   >
 
-
-    <div
-      v-if="isAuthenticated"
-      class="media">
-      <figure class="media-left">
-        <p class="image is-64x64">
-          <img src="https://bulma.io/images/placeholders/128x128.png">
-        </p>
-      </figure>
-
+    <transition name="fade">
       <div
-        :style="{ alignSelf: 'stretch', alignItems: 'center' }"
-        class="media-content is-flex">
-        <span class="is-4 strong">
-          {{ isAuthenticated }}
-          {{ authenticatedUser.username }} : {{ authenticatedUser.id }}
-        </span>
+        v-show="isAuthenticated"
+        class="media">
+        <figure class="media-left">
+          <p class="image is-64x64">
+            <img src="https://bulma.io/images/placeholders/128x128.png">
+          </p>
+        </figure>
+
+        <div
+          :style="{ alignSelf: 'stretch', alignItems: 'center' }"
+          class="media-content is-flex">
+          <span class="is-4 strong">
+            {{ authenticatedUser.username }}
+          </span>
+        </div>
       </div>
+    </transition>
+
+    <div class="Sidebar-ListWrapper">
+      <p class="menu-label">General</p>
+      <ul
+        class="menu-list">
+        <li
+          v-for="(item, key) of items"
+          :key="key">
+          <nuxt-link
+            :to="item.to"
+            class="Sidebar-ListWrapperElement"
+            exact-active-class="is-active">
+            <b-icon :icon="item.icon"/>
+            {{ item.title }}
+          </nuxt-link>
+        </li>
+      </ul>
     </div>
 
-    <p class="menu-label">General</p>
-    <ul
-      class="menu-list">
-      <li
-        v-for="(item, key) of items"
-        :key="key">
-        <nuxt-link
-          :to="item.to"
-          exact-active-class="is-active">
-          <b-icon :icon="item.icon"/> {{ item.title }}
-        </nuxt-link>
-      </li>
-    </ul>
   </aside>
 </template>
 
@@ -55,8 +60,12 @@ export default {
     return {
       items: [
         { title: 'Home', icon: 'home', to: { name: 'index' } },
-        { title: 'Recipes', icon: 'lightbulb', to: { name: 'recipes' } },
-        { title: 'Categories', icon: 'lightbulb', to: { name: 'tags' } },
+        {
+          title: 'Recipes',
+          icon: 'format-list-bulleted',
+          to: { name: 'recipes' }
+        },
+        { title: 'Categories', icon: 'tag-multiple', to: { name: 'tags' } },
         { title: 'Favourites', icon: 'heart', to: { name: 'favourites' } }
       ]
     }
@@ -92,24 +101,43 @@ export default {
 </script>
 
 <style scoped lang="sass">
-  @import "~bulma/sass/utilities/_all.sass"
-  @import "../sass/variables.sass"
+@import "~bulma/sass/utilities/_all.sass"
+@import "../sass/variables.sass"
 
-  .menu-list
+.menu-list
+  width: 100%
+
+aside
+  @include until($desktop)
+    display: none
+    z-index: 31
+    background-color: rgba(255, 255, 255, .95)
+    position: fixed
     width: 100%
+    height: 100%
 
-  aside
-    @include until($desktop)
-      display: none
-      z-index: 31
-      background-color: rgba(255, 255, 255, .95)
-      position: fixed
-      width: 100%
-      height: 100%
+    &.is-mobile-open
+      display: block
 
-      &.is-mobile-open
-        display: block
+  .media
+    padding: $container-gap-horizontal
 
+.Sidebar-ListWrapper
+  padding: $container-gap-horizontal
+
+  &Element
+    display: flex
+    align-items: center
+
+    span
+      margin-right: 5px
+
+
+.fade-enter-active
+  transition: opacity .5s
+
+.fade-enter
+  opacity: 0
 
 
 </style>

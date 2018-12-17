@@ -1,6 +1,9 @@
 <template>
   <div>
-    <page-title :title="title"/>
+    <page-title
+      :title="title"
+      :background-url="backgroundUrl"
+    />
 
     <ApolloQuery
       :query="require('../graphql/Tags.gql')"
@@ -20,25 +23,16 @@
         <div
           v-else-if="data"
           class="result apollo TagsList">
-          <no-ssr>
-            <masonry
-              :cols="{default: 3, 1300: 3, 850: 2, 480: 1}"
-              :gutter="12"
-            >
-              <div
-                v-for="tag in data.allTags"
-                :key="tag.name"
-                class="TagsList-ItemWrapper"
-              >
-                <tag-element
-                  v-bind="tag"
-                  size="medium"
-                />
-              </div>
-            </masonry>
-          </no-ssr>
-
-
+          <div
+            v-for="tag in data.allTags"
+            :key="tag.name"
+            class="TagsList-ItemWrapper"
+          >
+            <tag-element
+              v-bind="tag"
+              size="medium"
+            />
+          </div>
         </div>
 
         <!-- No result -->
@@ -63,12 +57,8 @@ export default {
   components: { TagElement },
   data() {
     return {
-      title: 'Categories'
-    }
-  },
-  methods: {
-    async fetchItems() {
-      await console.log('XD')
+      title: 'Categories',
+      backgroundUrl: '/static/images/bookshelf.jpeg'
     }
   }
 }
@@ -79,10 +69,21 @@ export default {
   @import "../sass/variables"
 
   .TagsList
-    padding-left: $container-gap-horizontal
-    padding-right: $container-gap-horizontal
-
     &-ItemWrapper
-      margin-top: $container-gap-horizontal
+      display: inline-block
+      padding: $container-gap-horizontal
+      width: 100%
+
+      @media screen and (min-width: 500px)
+        width: 50%
+
+      @include tablet
+        width: 33%
+
+      @include desktop
+        width: 25%
+
+      @include fullhd
+        width: 25%
 
 </style>

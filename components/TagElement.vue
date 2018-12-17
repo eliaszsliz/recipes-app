@@ -8,8 +8,8 @@
       <div class="level-left">
         <figure class="level-item image is-64x64">
           <img
-            :src="thumbnail"
-            class=" is-rounded"
+            :src="computedThumbnailUrl"
+            class="is-rounded"
           >
         </figure>
       </div>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { media_prefix } from '../utils/media'
 export default {
   name: 'TagElement',
   props: {
@@ -43,15 +44,23 @@ export default {
       },
       default: 'small'
     },
-    id: [Number, String],
+    id: Number,
     name: String,
     slug: {
       type: String,
       required: true
     },
-    thumbnail: {
+    thumbnailUrl: {
       type: String,
-      default: 'https://bulma.io/images/placeholders/128x128.png'
+      default: null
+    }
+  },
+  computed: {
+    computedThumbnailUrl: function() {
+      if (this.thumbnailUrl) {
+        return media_prefix(this.thumbnailUrl)
+      }
+      return 'https://bulma.io/images/placeholders/128x128.png'
     }
   },
   methods: {

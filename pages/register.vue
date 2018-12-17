@@ -1,10 +1,9 @@
 <template>
-  <div class="container">
+  <div>
     <page-title title="Sign up" />
 
-
     <div class="columns">
-      <div class="column is-12">
+      <div class="column is-offset-3 is-6">
         <b-message
           v-if="errors.length"
           type="is-danger">
@@ -19,7 +18,10 @@
         <b-field
           label="Username"
           custom-class="has-text-left">
-          <b-input v-model="credentials.username"/>
+          <b-input
+            v-model="credentials.username"
+            placeholder="Username"
+          />
         </b-field>
 
         <b-field
@@ -28,6 +30,7 @@
           custom-class="has-text-left">
           <b-input
             v-model="credentials.password"
+            placeholder="Password"
             type="password" />
         </b-field>
 
@@ -40,6 +43,7 @@
         >
           <b-input
             v-model="credentials.passwordRepeat"
+            placeholder="Repeat password"
             type="password" />
         </b-field>
 
@@ -47,12 +51,15 @@
           label="Email"
           custom-class="has-text-left"
         >
-          <b-input v-model="credentials.email"/>
+          <b-input
+            v-model="credentials.email"
+            placeholder="Email"
+          />
         </b-field>
 
         <button
           type="submit"
-          class="button is-success is-large"
+          class="button is-success is-large is-pulled-right"
           @click="submitForm"
         >
           Utwórz konto
@@ -60,6 +67,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -71,11 +79,11 @@ export default {
     return {
       errors: [],
       credentials: {
-        username: 'test',
-        password: 'has',
-        passwordRepeat: 'sa',
+        username: '',
+        password: '',
+        passwordRepeat: '',
         passwordRepeatDirty: false,
-        email: 'pwaew@wpp.pl'
+        email: ''
       }
     }
   },

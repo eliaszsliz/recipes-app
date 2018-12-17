@@ -48,6 +48,7 @@ module.exports = {
   */
   apollo: {
     tokenName: 'token',
+    authenticationType: 'JWT',
     clientConfigs: {
       default: {
         httpEndpoint: process.env.API_URL || 'http://localhost:8000/graphql/',

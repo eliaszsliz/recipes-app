@@ -60,9 +60,11 @@
     </nav>
 
     <section class="main-content columns is-gapless">
-      <no-ssr>
-        <sidebar-menu />
-      </no-ssr>
+      <keep-alive>
+        <no-ssr>
+          <sidebar-menu />
+        </no-ssr>
+      </keep-alive>
 
       <div class="column is-12 is-9-desktop AppContent">
         <nuxt />
@@ -75,6 +77,7 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import SidebarMenu from '../components/SidebarMenu'
+const UserInfo = require('../graphql/UserInfo.gql')
 
 export default {
   components: { SidebarMenu },
@@ -87,16 +90,38 @@ export default {
       this.closeMenu()
     }
   },
+  mounted() {
+    const token = this.$apolloHelpers.getToken()
+    if (token) {
+      try {
+        this.$apollo
+          .query({
+            query: UserInfo
+          })
+          .then(res => res.data.userInfo)
+          .then(user => {
+            this.setUser(user)
+            this.setToken(token)
+          })
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  },
   methods: {
     logout() {
       this.$apolloHelpers.onLogout()
       this.clearUser()
+      this.$router.push({ name: 'index' })
     },
+
     ...mapMutations({
       openMenu: 'menu/openMenu',
       closeMenu: 'menu/closeMenu',
       toggleMenu: 'menu/toggleMenu',
-      clearUser: 'auth/clearUser'
+      clearUser: 'auth/clearUser',
+      setUser: 'auth/setUser',
+      setToken: 'auth/setToken'
     })
   }
 }
@@ -115,4 +140,11 @@ export default {
 
   //@include from(desktop)
     margin-left: 25% !important
+
+.page-enter-active, .page-leave-active
+  transition: opacity .25s
+
+.page-enter, .page-leave-to
+  opacity: 0
+
 </style>

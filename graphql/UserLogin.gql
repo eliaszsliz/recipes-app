@@ -4,6 +4,7 @@ mutation UserLogin($username: String!, $password: String!) {
     user {
       id
       username
+      favouredIds
     }
   }
 }

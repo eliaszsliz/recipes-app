@@ -3,6 +3,7 @@ query($slug: String) {
       id
       slug
       name
+      backgroundUrl
       recipes {
         id
         slug
@@ -11,6 +12,7 @@ query($slug: String) {
         portions
         timeNeed
         difficulty
+        thumbnailUrl
       }
   }
 }

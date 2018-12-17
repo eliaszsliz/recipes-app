@@ -1,0 +1,12 @@
+query ($ids: [Int]){
+  recipesFilter(ids: $ids) {
+    id
+    slug
+    name
+    description
+    portions
+    timeNeed
+    difficulty
+    thumbnailUrl
+  }
+}

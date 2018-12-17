@@ -15,14 +15,20 @@
         <!-- Error -->
         <div
           v-else-if="error"
-          class="error apollo">An error occured</div>
+          class="error apollo">
+          An error occured
+        </div>
 
         <!-- Result -->
         <div
           v-else-if="data"
           class="result apollo">
           <div>
-            <page-title :title="data.recipe.name">
+            <page-title
+              :title="data.recipe.name"
+              :background-url="data.recipe.backgroundUrl"
+              :style="{ marginBottom: 0 }"
+            >
               <button
                 slot="back-button"
                 :style="{position: 'absolute',
@@ -121,10 +127,13 @@
 
             <div
               class="content RecipePage-Content"
+              style="margin: 2.5rem 0"
               v-html="data.recipe.body" />
 
             <div class="box is-shadowless is-radiusless has-background-light RecipePage-Tags">
-              <small-label>Test</small-label>
+              <small-label>
+                Categories
+              </small-label>
 
               <tag-element
                 v-for="tag in data.recipe.tags"
@@ -150,6 +159,7 @@
 </template>
 
 <script>
+import { media_prefix } from '../../utils/media'
 import TagElement from '@/components/TagElement'
 
 export default {
@@ -164,6 +174,9 @@ export default {
     }
   },
   methods: {
+    addMediaPrefix(url) {
+      return media_prefix(url)
+    },
     goBack() {
       this.$router.go(-1)
     },
@@ -226,7 +239,6 @@ export default {
 
     &-Content
       margin-bottom: 1.5rem
-      //padding: $content-padding
-
-
+      padding-left: $container-gap-horizontal
+      padding-right: $container-gap-horizontal
 </style>

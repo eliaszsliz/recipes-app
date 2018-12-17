@@ -1,0 +1,9 @@
+mutation SetFavourite($id: Int!) {
+    setFavourite(id: $id) {
+      success
+      errors {
+        field
+        message
+      }
+    }
+  }

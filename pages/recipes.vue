@@ -1,48 +1,45 @@
 <template>
   <div>
-    <page-title title="All recipes" />
+    <page-title
+      :title="title"
+      :background-url="backgroundUrl"
+    />
 
-    <ApolloQuery
-      :query="require('../graphql/Recipes.gql')"
-    >
-      <template slot-scope="{ result: { loading, error, data } }">
-        <!-- Loading -->
-        <div
-          v-if="loading"
-          class="loading apollo">Loading...</div>
-
-        <!-- Error -->
-        <div
-          v-else-if="error"
-          class="error apollo">An error occured</div>
-
-        <!-- Result -->
-        <div
-          v-else-if="data"
-          class="result apollo">
-          <recipe-list :items="data.allRecipes" />
-        </div>
-
-        <!-- No result -->
-        <div
-          v-else
-          class="no-result apollo">
-          Nie ma żadnych wyników
-        </div>
-      </template>
-    </ApolloQuery>
+    <recipe-list :items="items" />
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import RecipeList from '@/components/RecipeList'
+const allRecipesGql = require('../graphql/Recipes.gql')
 
 export default {
   name: 'Recipes',
   components: { RecipeList },
+  data() {
+    return {
+      title: 'All recipes',
+      backgroundUrl: '/static/images/recipes.jpeg',
+      items: []
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      this.fetchItems()
+      setTimeout(() => this.$nuxt.$loading.finish(), 500)
+    })
+  },
   methods: {
-    async fetchItems() {
-      await console.log('XD')
+    fetchItems() {
+      return this.$apollo
+        .query({
+          query: allRecipesGql
+        })
+        .then(res => {
+          Vue.set(this, 'items', res.data.allRecipes)
+        })
     }
   }
 }
