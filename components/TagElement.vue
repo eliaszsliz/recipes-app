@@ -77,9 +77,12 @@ export default {
   @import "@/sass/variables.sass"
 
   .TagElement--small
+    cursor: pointer
     margin-right: $tag-element-gap
 
   .TagElement--medium
+    cursor: pointer
+
     & > .level
       display: flex
       padding: $small-gap
