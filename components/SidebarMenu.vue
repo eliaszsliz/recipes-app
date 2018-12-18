@@ -42,8 +42,42 @@
           </nuxt-link>
         </li>
       </ul>
-    </div>
 
+      <ul class="menu-list">
+        <li v-if="isAuthenticated">
+          <nuxt-link
+            :to="{ name: 'logout' }"
+            class="Sidebar-ListWrapperElement Sidebar-ListWrapperElement--with-top-gap"
+            exact-active-class="is-active"
+          >
+            <b-icon icon="logout" />
+            Log out
+          </nuxt-link>
+        </li>
+
+        <template v-else>
+          <li>
+            <nuxt-link
+              :to="{ name: 'register' }"
+              exact-active-class="is-active"
+              class="Sidebar-ListWrapperElement Sidebar-ListWrapperElement--with-top-gap"
+            >
+              <b-icon icon="account" /> Register
+            </nuxt-link>
+          </li>
+
+          <li>
+            <nuxt-link
+              :to="{ name: 'login' }"
+              exact-active-class="is-active"
+              class="Sidebar-ListWrapperElement"
+            >
+              <b-icon icon="login" /> Log in
+            </nuxt-link>
+          </li>
+        </template>
+      </ul>
+    </div>
   </aside>
 </template>
 
@@ -132,6 +166,8 @@ aside
     span
       margin-right: 5px
 
+    &--with-top-gap
+      margin-top: 3rem
 
 .fade-enter-active
   transition: opacity .5s

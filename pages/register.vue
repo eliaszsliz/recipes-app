@@ -81,13 +81,15 @@
           />
         </b-field>
 
-        <button
-          type="submit"
-          class="button is-success is-medium is-pulled-right"
-          @click="submitForm"
-        >
-          Utwórz konto
-        </button>
+        <div class="is-clearfix">
+          <button
+            type="submit"
+            class="button is-success is-medium is-pulled-right"
+            @click="submitForm"
+          >
+            Utwórz konto
+          </button>
+        </div>
       </div>
     </div>
   </div>

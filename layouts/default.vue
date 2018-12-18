@@ -133,6 +133,8 @@ export default {
 @import "../sass/variables"
 
 .AppContent
+  overflow-x: hidden
+
   .horizontal-mobile-padding
     @include mobile
       padding-left: $container-gap-horizontal * 2

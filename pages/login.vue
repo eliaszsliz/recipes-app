@@ -53,13 +53,15 @@
             type="password"/>
         </b-field>
 
-        <button
-          class="button is-success is-medium is-pulled-right"
-          type="button"
-          @click="submitForm"
-        >
-          Log in
-        </button>
+        <div class="is-clearfix">
+          <button
+            class="button is-success is-medium is-pulled-right"
+            type="button"
+            @click="submitForm"
+          >
+            Log in
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -161,5 +163,8 @@ export default {
   background-color: white
   position: relative
   top: -6rem
+
+  @include mobile
+    top: 0
 
 </style>

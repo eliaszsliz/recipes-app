@@ -55,6 +55,7 @@ export default {
 
       if (this.backgroundUrl) {
         stylesObj.background = `url(${media_prefix(this.backgroundUrl)})`
+        stylesObj.backgroundSize = 'cover'
       }
 
       return stylesObj

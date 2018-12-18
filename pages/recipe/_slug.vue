@@ -131,7 +131,9 @@
               v-html="data.recipe.body" />
 
             <div class="box is-shadowless is-radiusless has-background-light RecipePage-Tags">
-              <small-label>
+              <small-label
+                :styless="{ marginRight: '.5rem' }"
+              >
                 Categories
               </small-label>
 
