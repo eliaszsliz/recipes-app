@@ -11,10 +11,10 @@
           :alt="description"
           :src="computedThumbnailUrl">
       </figure>
+    </div>
 
-      <div class="RecipeListElement-NameWrapper">
-        {{ name }}
-      </div>
+    <div class="card-content RecipeListElement-NameWrapper">
+      {{ name }}
     </div>
 
     <footer
@@ -46,14 +46,7 @@
         />
       </span>
 
-      <span
-        class="card-footer-item cursor-pointer"
-        @click.left="goToMore"
-        @click.middle="goToMore"
-      >
-        <b-icon
-          icon="arrow-right"/>
-      </span>
+
     </footer>
 
   </div>
@@ -147,28 +140,34 @@ export default {
     cursor: pointer
     box-shadow: $box-shadow
     transition: box-shadow .4s, transform .5s
-
+    border-radius: $radius * 4
 
     &:hover, &:active
       box-shadow: 0 6px 12px rgba(0, 0, 0, .07)
       transform: scale(.99)
 
-
+    &-ImageWrapper
+      img
+        border-radius: $radius * 4
 
     &-NameWrapper
-      $name-bg-color: rgba(white, .7)
-      $name-color: findColorInvert($name-bg-color)
-
-      background-color: $name-bg-color
-      color: $name-color
-      position: absolute
-      bottom: 0
+      color: findColorInvert(#fff)
+      display: flex
+      justify-content: center
+      align-items: center
+      text-align: center
+      min-height: 64px
       width: 100%
       padding: 8px
 
     & .card-footer
+      border: none
+
+      .card-footer-item:not(:last-child)
+        border: none
+
       & > div
-        border-right: 1px solid $border
+        border: none
         align-items: center
         display: flex
         flex-basis: 0
