@@ -134,6 +134,7 @@ export default {
 
 .AppContent
   overflow-x: hidden
+  min-height: 80vh
 
   .horizontal-mobile-padding
     @include mobile

@@ -89,7 +89,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', ['favouredIds']),
+    ...mapGetters('auth', ['favouredIds', 'isAuthenticated']),
     userHasInFavourites: function() {
       return this.favouredIds.includes(+this.id)
     },
@@ -111,21 +111,34 @@ export default {
       })
     },
     setFavourite(new_value) {
-      if (new_value) {
-        this.addFavourite(+this.id)
+      if (this.isAuthenticated) {
+        if (new_value) {
+          this.addFavourite(+this.id)
+        } else {
+          this.removeFavourite(+this.id)
+        }
+        try {
+          this.$apollo.mutate({
+            mutation: setFavouriteGql,
+            variables: {
+              id: this.id,
+              newValue: new_value
+            }
+          })
+        } catch (e) {
+          console.log(e)
+        }
       } else {
-        this.removeFavourite(+this.id)
-      }
-      try {
-        this.$apollo.mutate({
-          mutation: setFavouriteGql,
-          variables: {
-            id: this.id,
-            newValue: new_value
+        this.$snackbar.open({
+          message: 'Wanna save your favorites forever?',
+          duration: 3000,
+          type: 'is-primary',
+          position: 'is-top',
+          actionText: 'Sign up!',
+          onAction: () => {
+            this.$router.push({ name: 'login', query: { next: '/recipes' } })
           }
         })
-      } catch (e) {
-        console.log(e)
       }
     }
   }
