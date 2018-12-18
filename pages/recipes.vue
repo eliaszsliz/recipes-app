@@ -25,11 +25,16 @@ export default {
     }
   },
   mounted() {
-    this.$nextTick(() => {
-      //this.$nuxt.$loading.start()
-      this.fetchItems()
-      //setTimeout(() => this.$nuxt.$loading.finish(), 500)
-    })
+    //this.fetchItems()
+  },
+  asyncData({ app, params, error }) {
+    return app.apolloProvider.defaultClient
+      .query({
+        query: allRecipesGql
+      })
+      .then(res => {
+        return { items: res.data.allRecipes }
+      })
   },
   methods: {
     fetchItems() {
