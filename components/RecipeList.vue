@@ -12,6 +12,7 @@
       >
         <recipe-list-element
           v-bind="recipe"
+          :footer-less="footerLess"
         />
       </div>
     </transition-group>
@@ -29,7 +30,11 @@ export default {
     RecipeListElement
   },
   props: {
-    items: Array
+    items: Array,
+    footerLess: {
+      type: Boolean,
+      default: false
+    }
   }
 }
 </script>

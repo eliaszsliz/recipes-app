@@ -24,15 +24,12 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [],
+  css: ['swiper/dist/css/swiper.css', '@/sass/main.sass'],
 
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [
-    '~/plugins/global.js',
-    { src: '~/plugins/vue-masonry.js', ssr: false }
-  ],
+  plugins: ['~/plugins/global.js', { src: '~/plugins/swiper.js', ssr: false }],
 
   /*
   ** Nuxt.js modules
@@ -41,7 +38,7 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/apollo-module
     '@nuxtjs/apollo',
     // Doc: https://buefy.github.io/#/documentation
-    'nuxt-buefy'
+    ['nuxt-buefy', { css: false }]
   ],
   /*
   ** Apollo module configuration

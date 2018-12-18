@@ -1,20 +1,21 @@
 <template>
   <div>
     <nav
-      class="navbar header has-shadow is-primary"
+      class="navbar header is-primary"
       role="navigation"
       aria-label="main navigation">
       <div class="navbar-brand">
-        <a
+        <nuxt-link
+          :to="{ name: 'index' }"
           class="navbar-item"
-          href="/">
+        >
           <img
             src="~/assets/burger.svg"
             alt="Burger logo"
             style="width: 28px; height: 28px; margin-right: 8px"
           >
           <b>Food</b>
-        </a>
+        </nuxt-link>
 
         <div
           :class="{
@@ -35,7 +36,7 @@
             v-if="isAuthenticated"
             class="navbar-item">
             <button
-              class="button is-warning"
+              class="button is-danger"
               @click="logout"
             >Log out</button>
           </div>
@@ -51,7 +52,7 @@
 
               <nuxt-link
                 :to="{ name: 'login' }"
-                class="button is-white is-outlined"
+                class="button is-info"
               >Log in</nuxt-link>
             </div>
           </template>
@@ -131,20 +132,17 @@ export default {
 @import "~bulma/sass/utilities/_all.sass"
 @import "../sass/variables"
 
-.cursor-pointer
-  cursor: pointer
-
 .AppContent
-  padding-left: $container-gap-horizontal !important
-  padding-right: $container-gap-horizontal !important
-
-  //@include from(desktop)
-    margin-left: 25% !important
+  .horizontal-mobile-padding
+    @include mobile
+      padding-left: $container-gap-horizontal * 2
+      padding-right: $container-gap-horizontal * 2
 
 .page-enter-active, .page-leave-active
   transition: opacity .25s
 
 .page-enter, .page-leave-to
   opacity: 0
+
 
 </style>

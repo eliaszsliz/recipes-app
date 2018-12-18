@@ -26,9 +26,9 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.$nuxt.$loading.start()
+      //this.$nuxt.$loading.start()
       this.fetchItems()
-      setTimeout(() => this.$nuxt.$loading.finish(), 500)
+      //setTimeout(() => this.$nuxt.$loading.finish(), 500)
     })
   },
   methods: {

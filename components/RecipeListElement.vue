@@ -2,8 +2,9 @@
   <div
     class="card RecipeListElement">
     <div
-      class="card-image cursor-pointer"
-      @click="goToMore"
+      class="card-image cursor-pointer RecipeListElement-ImageWrapper"
+      @click.left="goToMore"
+      @click.middle="goToMore"
     >
       <figure class="image is-4by3">
         <img
@@ -16,10 +17,15 @@
       </div>
     </div>
 
-    <footer class="card-footer">
+    <footer
+      v-if="!footerLess"
+      class="card-footer"
+    >
       <span
         class="card-footer-item">
-        <b-dropdown>
+        <b-dropdown
+          position="is-top-right"
+        >
           <b-icon
             slot="trigger"
             icon="menu"
@@ -42,7 +48,8 @@
 
       <span
         class="card-footer-item cursor-pointer"
-        @click="goToMore"
+        @click.left="goToMore"
+        @click.middle="goToMore"
       >
         <b-icon
           icon="arrow-right"/>
@@ -82,6 +89,10 @@ export default {
     thumbnailUrl: {
       type: String,
       required: false
+    },
+    footerLess: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -133,7 +144,16 @@ export default {
   @import "../sass/variables"
 
   .RecipeListElement
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .07) // 1px 18px 23px rgba(76, 76, 76, 0.2)
+    cursor: pointer
+    box-shadow: $box-shadow
+    transition: box-shadow .4s, transform .5s
+
+
+    &:hover, &:active
+      box-shadow: 0 6px 12px rgba(0, 0, 0, .07)
+      transform: scale(.99)
+
+
 
     &-NameWrapper
       $name-bg-color: rgba(white, .7)

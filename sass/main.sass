@@ -1,0 +1,54 @@
+@charset "utf-8"
+
+@import "~bulma/sass/utilities/_all.sass"
+@import "variables"
+
+$primary: #f4e409
+$primary-invert: rgba(0,0,0,0.7) // findColorInvert($primary)
+
+$warning: #efcc1a
+$warning-invert: findColorInvert($warning)
+
+$danger: #f17259
+$danger-invert: findColorInvert($danger)
+
+$info: #266dd3
+$info-invert: findColorInvert($info)
+
+$success: #7bc950
+$success-invert: findColorInvert($success)
+
+$colors: map-merge($colors, ("primary": ($primary, $primary-invert)))
+$colors: map-merge($colors, ("warning": ($warning, $warning-invert)))
+$colors: map-merge($colors, ("danger": ($danger, $danger-invert)))
+$colors: map-merge($colors, ("info": ($info, $info-invert)))
+$colors: map-merge($colors, ("success": ($success, $success-invert)))
+
+//$colors: ( "white": ($white, $black), "black": ($black, $white),
+//    "light": ($light, $light-invert),
+//    "dark": ($dark, $dark-invert),
+//    "primary": ($primary, $primary-invert),
+//    "info": ($info, $info-invert),
+//    "success": ($success, $success-invert),
+//    "warning": ($warning, $warning-invert),
+//    "danger": ($danger, $danger-invert),
+//    "twitter": ($twitter, $twitter-invert)
+//);
+
+$link: $primary
+$link-invert: $primary-invert
+$link-focus-border: $primary
+
+$small-gap: $gap / 8
+
+$menu-item-active-background-color: $primary
+$tag-element-gap: $small-gap
+$content-padding: 1.25rem // box-padding from bulma
+
+$container-gap-horizontal: 12px
+
+$box-shadow: 1px 12px 18px rgba(76, 76, 76, 0.1)
+
+@import "~bulma"
+@import "~buefy/src/scss/buefy"
+//@import "~buefy/src/scss/buefy"

@@ -205,9 +205,15 @@ export default {
       }
     },
     getHumanReadableTime(time) {
+      let str = ''
+
       let hours = ~~(time / 60)
       let min = time % 60
-      return `${hours} h ${min} min.`
+
+      if (hours > 0) str += `${hours}h `
+      if (min > 0) str += `${min}min.`
+
+      return str
     }
   }
 }
@@ -239,6 +245,12 @@ export default {
 
     &-Content
       margin-bottom: 1.5rem
+
+    &-Content, &-Tags
       padding-left: $container-gap-horizontal
       padding-right: $container-gap-horizontal
+
+      @include desktop
+        padding-left: 4 * $container-gap-horizontal
+        padding-right: 4 * $container-gap-horizontal
 </style>

@@ -2,7 +2,8 @@
   <div
     v-if="size === 'medium'"
     class="cursor-pointer TagElement--medium"
-    @click="goToMore"
+    @click.left="goToMore"
+    @click.middle="goToMore"
   >
     <div class="level">
       <div class="level-left">
