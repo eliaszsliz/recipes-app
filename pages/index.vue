@@ -84,6 +84,17 @@ export default {
       swiperOptions: {
         grabCursor: true,
         centeredSlides: true,
+        breakpoints: {
+          // when window width is <= 320px
+          380: {
+            slidesPerView: 1,
+            spaceBetween: 10
+          },
+          600: {
+            slidesPerView: 2,
+            spaceBetween: 15
+          }
+        },
         slidesPerView: 3,
         spaceBetween: 20,
         initialSlide: 1,
@@ -164,6 +175,9 @@ export default {
   position: relative
   top: -(2 * $custom-gap)
   background-color: white
+
+  @include mobile
+    margin: 0
 
   &List
     margin-top: $custom-gap

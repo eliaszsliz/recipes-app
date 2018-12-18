@@ -157,7 +157,6 @@ export default {
       align-items: center
       text-align: center
       min-height: 64px
-      width: 100%
       padding: 8px
 
     & .card-footer
