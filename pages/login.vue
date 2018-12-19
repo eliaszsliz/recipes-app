@@ -79,8 +79,8 @@ export default {
   mixins: [validationMixin],
   data() {
     return {
-      username: 'admin',
-      password: 'korynt123',
+      username: '',
+      password: '',
       submitStatus: null,
       errors: []
     }
