@@ -25,16 +25,7 @@ export default {
     }
   },
   mounted() {
-    //this.fetchItems()
-  },
-  asyncData({ app, params, error }) {
-    return app.apolloProvider.defaultClient
-      .query({
-        query: allRecipesGql
-      })
-      .then(res => {
-        return { items: res.data.allRecipes }
-      })
+    this.fetchItems()
   },
   methods: {
     fetchItems() {

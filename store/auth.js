@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 export const state = () => ({
   id: null,
-  username: 'test',
+  username: '',
   token: '',
   avatar: '',
   favouredIds: []

@@ -1,4 +1,5 @@
 const pkg = require('./package')
+require('dotenv').load()
 
 module.exports = {
   mode: 'universal',
@@ -51,7 +52,11 @@ module.exports = {
     authenticationType: 'JWT',
     clientConfigs: {
       default: {
-        httpEndpoint: process.env.API_URL || 'http://localhost:8000/graphql/',
+        // todo move IPs to process variable
+        httpEndpoint:
+          process.env.API_URL ||
+          'http://192.168.99.100:8045/graphql/' ||
+          'http://127.0.0.1:8000/graphql/',
         httpLinkOptions: {
           credentials: 'same-origin'
         },
@@ -61,7 +66,7 @@ module.exports = {
         websocketsOnly: false
       },
       test: {
-        httpEndpoint: 'http://localhost:8000/graphql/',
+        httpEndpoint: 'http://127.0.0.1:8000/graphql/',
         wsEndpoint: null, //'ws://localhost:8000/graphql/',
         tokenName: 'token'
       }
