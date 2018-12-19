@@ -1,0 +1,18 @@
+query($slug: String) {
+    tag(slug: $slug ){
+      id
+      slug
+      name
+      backgroundUrl
+      recipes {
+        id
+        slug
+        name
+        description
+        portions
+        timeNeed
+        difficulty
+        thumbnailUrl
+      }
+  }
+}

@@ -1,4 +1,5 @@
 const pkg = require('./package')
+require('dotenv').load()
 
 module.exports = {
   mode: 'universal',
@@ -7,15 +8,16 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: 'Application with recipes',
+    htmlAttrs: {
+      lang: 'en'
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
 
   /*
@@ -26,29 +28,49 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [
-  ],
+  css: ['swiper/dist/css/swiper.css', '@/sass/main.sass'],
 
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [
-  ],
+  plugins: ['~/plugins/global.js', { src: '~/plugins/swiper.js', ssr: false }],
 
   /*
   ** Nuxt.js modules
   */
   modules: [
-    // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios',
+    // Doc: https://github.com/nuxt-community/apollo-module
+    '@nuxtjs/apollo',
     // Doc: https://buefy.github.io/#/documentation
-    'nuxt-buefy'
+    ['nuxt-buefy', { css: false }]
   ],
   /*
-  ** Axios module configuration
+  ** Apollo module configuration
   */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+  apollo: {
+    tokenName: 'token',
+    authenticationType: 'JWT',
+    clientConfigs: {
+      default: {
+        // todo move IPs to process variable
+        httpEndpoint:
+          process.env.API_URL ||
+          'http://192.168.99.100:8045/graphql/' ||
+          'http://127.0.0.1:8000/graphql/',
+        httpLinkOptions: {
+          credentials: 'same-origin'
+        },
+        wsEndpoint: null, // process.env.API_WS_URL || 'ws://localhost:8000/graphql/',
+        tokenName: 'token',
+        persisting: false,
+        websocketsOnly: false
+      },
+      test: {
+        httpEndpoint: 'http://127.0.0.1:8000/graphql/',
+        wsEndpoint: null, //'ws://localhost:8000/graphql/',
+        tokenName: 'token'
+      }
+    }
   },
 
   /*

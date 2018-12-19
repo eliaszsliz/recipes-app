@@ -1,0 +1,8 @@
+query{
+  allTags {
+    id
+    name
+    slug
+    thumbnailUrl
+  }
+}
